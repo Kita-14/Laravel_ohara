@@ -10,7 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{-- {{ __("You're logged in!") }} --}}
-                    ルーティングの確認に成功しました。viteも使えています。
+                    {{-- 個別ブロック --}}
+                    @foreach ($values as $value)
+                        {{-- foeach内の処理 --}}
+                        {{-- DBのデータを一件ずつ表示 --}}
+                        {{-- マスタッシュ構文 PHPをHTML内でエスケープ処理 --}}
+                        DBのIDは{{ $value->id }}です。<br>
+                        DBのテキストは{{ $value->text }}です。<br>
+                    @endforeach
                 </div>
             </div>
         </div>
