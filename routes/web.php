@@ -4,6 +4,21 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactFormController;
+
+// *お問い合わせフォーム用ルート
+// Route::get('/contacts',[ContactFormController::class,'index'])->name('contacts.index');
+// *リソースコントローラー用のまとめてルート作成
+// Route::resource('contacts',ContactFormController::class)->middleware(['auth']);
+Route::prefix('contacts') // 頭に contacts をつける
+->middleware(['auth']) // 認証
+->name('contacts.') // ルート名
+->controller(ContactFormController::class) // コントローラ指定
+->group(function(){ // グループ化
+	Route::get('/', 'index')->name('index'); // 名前つきルート
+    Route::get('/create','create')->name('create');
+});
+
 
 // !テスト用ルーティング
 // *ルートには名前を付けることができる。名前を付けておくと、ビューから呼び出すときに便利
