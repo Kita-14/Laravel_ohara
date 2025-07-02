@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('contact_forms', function (Blueprint $table) {
             // *作成するカラムを記述
             $table->id();
-            $table->string('name',20); //氏名
-            $table->string('email',250); //メールアドレス
-            $table->longText('url'); //URL null許可
+            $table->string('name', 20); //氏名
+            $table->string('email', 250); //メールアドレス
+            $table->longText('url')->nullable(); //URL null許可
             $table->boolean('gender'); //性別
             $table->Integer('age')->unsigned(); //年齢
-            $table->string('contact',200); //問い合わせ
+            $table->string('contact', 200); //問い合わせ
             $table->timestamps();
         });
     }

@@ -11,18 +11,19 @@ use App\Http\Controllers\ContactFormController;
 // *リソースコントローラー用のまとめてルート作成
 // Route::resource('contacts',ContactFormController::class)->middleware(['auth']);
 Route::prefix('contacts') // 頭に contacts をつける
-->middleware(['auth']) // 認証
-->name('contacts.') // ルート名
-->controller(ContactFormController::class) // コントローラ指定
-->group(function(){ // グループ化
-	Route::get('/', 'index')->name('index'); // 名前つきルート
-    Route::get('/create','create')->name('create');
-});
+    ->middleware(['auth']) // 認証
+    ->name('contacts.') // ルート名
+    ->controller(ContactFormController::class) // コントローラ指定
+    ->group(function () { // グループ化
+        Route::get('/', 'index')->name('index'); // 名前つきルート
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+    });
 
 
 // !テスト用ルーティング
 // *ルートには名前を付けることができる。名前を付けておくと、ビューから呼び出すときに便利
-Route::get('tests/test',[TestController::class,'index']) -> name('test.index');
+Route::get('tests/test', [TestController::class, 'index'])->name('test.index');
 
 // *ルーティングの定義 Route::通信方法(post or get) (アドレス、処理);
 // *ex.[/]というURLにアクセスしたらreturn view ('welcome')という処理を行う。
@@ -43,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
