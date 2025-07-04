@@ -19,12 +19,14 @@
                                     mumblecore 3 wolf moon twee</p> --}}
                             </div>
                             <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+                                {{-- テーブル開始 --}}
                                 <table class="table-auto w-full text-left whitespace-no-wrap">
+                                    {{-- テーブルヘッダー --}}
                                     <thead>
                                         <tr>
                                             <th
                                                 class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
-                                                お問い合わせ番号</th>
+                                                id</th>
                                             <th
                                                 class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                                                 氏名</th>
@@ -39,9 +41,11 @@
                                                 お問い合わせ日時</th>
                                             <th
                                                 class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
+                                                詳細
                                             </th>
                                         </tr>
                                     </thead>
+                                    {{-- テーブルボディー --}}
                                     <tbody>
                                         @foreach ($contacts as $contact)
                                             <tr>
@@ -56,6 +60,9 @@
                                                 </td>
                                                 <td class="px-4 py-3">{{ $contact->title }}</td>
                                                 <td class="px-4 py-3">{{ $contact->created_at }}</td>
+                                                <td class="px-4 py-3"><a
+                                                        href="{{ route('contacts.show', ['id' => $contact->id]) }}">詳細</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

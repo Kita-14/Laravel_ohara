@@ -40,6 +40,7 @@ class ContactFormController extends Controller
     {
         // *フォームから送られてきたデータの確認
         // dd($request->contact);
+        // *DBに以下の情報をまとめて登録する処理
         ContactForm::create([
             'name' => $request->name,
             'title' => $request->title,
@@ -57,7 +58,17 @@ class ContactFormController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // *find ⇒1件データを取得。データが存在しない場合エラー
+        // *findOrFail ⇒1件データを取得。データが存在しない場合404
+        $contact = ContactForm::findOrFail($id);
+
+        // *性別の判定
+        if ($contact->gender === 0) {
+            $gender = "男性";
+        } else {
+            $gender = "女性";
+        }
+        return view('contacts.show', compact('contact', 'gender'));
     }
 
     /**
@@ -65,7 +76,18 @@ class ContactFormController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // *DBから1件だけデータを取得
+        $contact = ContactForm::find($id);
+
+
+        // *性別の判定
+        if ($contact->gender === 0) {
+            $gender = "男性";
+        } else {
+            $gender = "女性";
+        }
+
+        return view('contacts.edit', compact('contact', 'gender'));
     }
 
     /**
@@ -73,7 +95,20 @@ class ContactFormController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // *現在の情報をDBから取得
+        $now_contact = ContactForm::findOrFail($id);
+        // *フォームで送信されたデータ($request)で現在の情報を上書き
+        // *現在の名前にフォームで送信された名前を代入
+        $now_contact->name = $request->name;
+        $now_contact->title = $request->title;
+        $now_contact->email = $request->email;
+        $now_contact->url = $request->url;
+        $now_contact->gender = $request->gender;
+        $now_contact->age = $request->age;
+        $now_contact->contact = $request->contact;
+        $now_contact->save();
+
+        return to_route('contacts.index');
     }
 
     /**
