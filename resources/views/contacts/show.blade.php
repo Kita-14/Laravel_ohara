@@ -99,6 +99,17 @@
                                         <button type="button" onclick="location.href='{{ route('contacts.index') }}'"
                                             class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">戻る</button>
                                     </div>
+                                    {{-- *削除 --}}
+                                    <form action="{{ route('contacts.destroy', ['id' => $contact->id]) }}"
+                                        method="post">
+                                        @csrf
+                                        <div class="p-2 w-full">
+                                            <button type="submit" data-id="{{ $contact->id }}"
+                                                onclick="deletePost(this)"
+                                                class="flex mx-auto text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg">削除</button>
+                                        </div>
+                                    </form>
+
                                     <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
                                         <a class="text-indigo-500">example@email.com</a>
                                         <p class="leading-normal my-5">49 Smith St.
@@ -114,8 +125,9 @@
                                                 </svg>
                                             </a>
                                             <a class="ml-4 text-gray-500">
-                                                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                                <svg fill="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" class="w-5 h-5"
+                                                    viewBox="0 0 24 24">
                                                     <path
                                                         d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
                                                     </path>
@@ -151,4 +163,13 @@
             </div>
         </div>
     </div>
+    {{-- JS --}}
+    <script>
+        function deletePost(e) {
+            'use strict'
+            if (confirm('本当に削除しますか？')) {
+                document.getElementById('delete_' + e.dataset.id).submit()
+            }
+        }
+    </script>
 </x-app-layout>
