@@ -12,12 +12,23 @@
                 <div class="p-6 text-gray-900">
                     <section class="text-gray-600 body-font">
                         <div class="container px-5 py-8 mx-auto">
+                            {{-- フラッシュメッセージ --}}
+                            {{-- @if (session('message'))
+                                {{ session('message') }}
+                            @endif --}}
+                            <x-flash-message status="info" />
                             <div class="flex flex-col text-center w-full mb-4">
                                 <h1 class="sm:text-4xl text-3xl font-medium title-font mb-1 text-gray-900">お問い合わせ一覧</h1>
                                 {{-- <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park
                                     skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade
                                     mumblecore 3 wolf moon twee</p> --}}
                             </div>
+                            {{-- 検索ボックス --}}
+                            <form action="{{ route('contacts.index') }}" method="get">
+                                <input type="text" name="search" placeholder="検索">
+                                <input type="submit" value="検索する"
+                                    class="mx-auto mb-20 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                            </form>
                             <div class="lg:w-2/3 w-full mx-auto overflow-auto">
                                 {{-- テーブル開始 --}}
                                 <table class="table-auto w-full text-left whitespace-no-wrap">
@@ -67,6 +78,8 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{-- ペジネーション --}}
+                                {{ $contacts->links() }}
                             </div>
                         </div>
                     </section>

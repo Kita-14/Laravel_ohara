@@ -9,16 +9,19 @@ use COM;
 use App\Services\CheckFormService;
 use App\Http\Requests\StoreContactRequest; //自作リクエストのインポート
 
-
 class ContactFormController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // *検索ボックス処理
+        $search = $request->search; // *フォームから送信された検索ワードの取得
+        $query = ContactForm::search($search);  // *検索ワードを引数としてモデルを使ってDBから該当データを抽出
+        $contacts = $query->select('id', 'name', 'title', 'gender', 'created_at')->paginate(20);    // *該当データからID・名前・件名などを抽出し、20件ごとにまとめて$contactsに格納
         // *DBから情報を取得 モデル名:select(カラム名)->get()出DBから指定したカラムをすべて取得
-        $contacts = ContactForm::select('id', 'name', 'title', 'gender', 'created_at')->get();
+        // $contacts = ContactForm::select('id', 'name', 'title', 'gender', 'created_at')->paginate(5);
         // *genderの値と表示名を結び付け
         $a = 1;
         // *処理:contactsフォルダ内のindex.blade.phpを返す
@@ -53,7 +56,7 @@ class ContactFormController extends Controller
             'age' => $request->age,
             'contact' => $request->contact
         ]);
-        return to_route('contacts.index');
+        return to_route('contacts.index')->with('message', 'お問い合わせ情報が登録できました。');
     }
 
     /**
